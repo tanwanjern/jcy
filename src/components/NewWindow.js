@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 const NewWindow = ({
     children, 
     title,
+    features,
     moveTo,
     onUnload
 }) => {
@@ -21,7 +22,7 @@ const NewWindow = ({
 
     useEffect(() => {
         if (container) {
-            newWindow.current = window.open("", title, "width=600,height=400,left=0,top=0");
+            newWindow.current = window.open("", title, features);
             newWindow.current.document.body.appendChild(container);
             newWindow.current.document.title = title;
             const curWindow = newWindow.current;
@@ -29,8 +30,8 @@ const NewWindow = ({
             const windowCheckerInterval = setInterval(() => {
                 if (!newWindow.current || newWindow.current.closed) {
                     onUnload(false)
-                }else{
                 }
+                console.log('window active')
             }, 50);
 
             newWindow.current.addEventListener('beforeunload', () => {
