@@ -8,14 +8,14 @@ import HomeCookin from './assets/audio/homecookin.mp3';
 import WindowTimer from './components/WindowTimer';
 import isPlayingState from './state/isPlayingState';
 import timerState from './state/timerState';
-import animationTimerState from './state/animationTimerState';
+// import animationTimerState from './state/animationTimerState';
 
 function App() {
 
   const [audio] = useState(new Audio(HomeCookin));
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
   const [timer, setTimer] = useRecoilState(timerState);
-  const [animationTimer, setAnimationTimer] = useRecoilState(animationTimerState);
+  // const [animationTimer, setAnimationTimer] = useRecoilState(animationTimerState);
 
   useEffect(()=>{
     if(isPlaying){
@@ -23,11 +23,13 @@ function App() {
       const counter = timer < audio.duration && setInterval(() => setTimer(timer + 1), 1000);
 
       // TODO: Move window with smooth animation...
-      const animationCounter = setInterval(() => setAnimationTimer(animationTimer + 0.24), 1);
+      // https://javascript.info/js-animation
+      // https://stackoverflow.com/questions/5605588/how-to-use-requestanimationframe
+      // const animationCounter = setInterval(() => setAnimationTimer(animationTimer + 1), 100);
       
       return () => {
         clearInterval(counter)
-        clearInterval(animationCounter)
+        // clearInterval(animationCounter)
       };
     } else {
       audio.pause();
@@ -48,7 +50,7 @@ function App() {
 
   return (
     <div className="">
-      <button onClick={()=>setIsPlaying(prev=>!prev)} className="px-4 py-2 bg-green-300">{isPlaying ? 'Playing':'Pausing'}</button>
+      <button onClick={()=>setIsPlaying(prev=>!prev)} className="px-4 py-2 bg-green-300">{isPlaying ? 'Pause':'Play'}</button>
       <button onClick={()=>resetAudio()} className="px-4 py-2 bg-red-300">Reset</button>
 
       Time: {timer} 
