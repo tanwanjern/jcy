@@ -21,7 +21,9 @@ function App() {
     if(isPlaying){
       audio.play()
       const counter = timer < audio.duration && setInterval(() => setTimer(timer + 1), 1000);
-      const animationCounter = animationTimer < audio.duration && setInterval(() => setAnimationTimer(animationTimer + 1), 24);
+
+      // TODO: Move window with smooth animation...
+      const animationCounter = setInterval(() => setAnimationTimer(animationTimer + 0.24), 1);
       
       return () => {
         clearInterval(counter)

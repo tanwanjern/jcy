@@ -5,7 +5,7 @@ import windowTimerState from '../state/ui/windowTimerState';
 import timerState from '../state/timerState';
 import animationTimerState from '../state/animationTimerState';
 
-const WindowTimer = ({children, increment}) => {
+const WindowTimer = ({children}) => {
 
     const [openWindowTimer, setOpenWindowTimer] = useRecoilState(windowTimerState);
     const timer = useRecoilValue(timerState);
@@ -24,10 +24,10 @@ const WindowTimer = ({children, increment}) => {
                 left=0,
                 top=0`
             }
-            moveBy={[1*animationTimer, 1*animationTimer]}
+            moveBy={[animationTimer, 0]}
             // onUnload={(bool)=>{console.log(bool); setOpenWindowTimer(bool);}}
         >
-            Hi 👋 {increment}
+            Hi 👋 {animationTimer}
             {children}
         </NewWindow>
     );
