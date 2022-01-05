@@ -29,13 +29,13 @@ const NewWindow = ({
 
             const windowCheckerInterval = setInterval(() => {
                 if (!newWindow.current || newWindow.current.closed) {
-                    onUnload(false)
+                    onUnload && onUnload(false)
                 }
                 console.log('window active')
             }, 50);
 
             newWindow.current.addEventListener('beforeunload', () => {
-                onUnload(false);
+                onUnload && onUnload(false);
                 clearInterval(windowCheckerInterval)
             })
 
