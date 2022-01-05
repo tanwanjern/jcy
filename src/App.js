@@ -5,34 +5,30 @@ import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 import HomeCookin from './assets/audio/homecookin.mp3';
+
+import isPlayingState from './states/isPlayingState';
+import timerState from './states/timerState';
+
+import WindowTest from './components/WindowTest';
 import WindowTimer from './components/WindowTimer';
-import isPlayingState from './state/isPlayingState';
-import timerState from './state/timerState';
-// import animationTimerState from './state/animationTimerState';
 
 function App() {
 
   const [audio] = useState(new Audio(HomeCookin));
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
   const [timer, setTimer] = useRecoilState(timerState);
-  // const [animationTimer, setAnimationTimer] = useRecoilState(animationTimerState);
 
   useEffect(()=>{
     if(isPlaying){
       audio.play()
       const counter = timer < audio.duration && setInterval(() => setTimer(timer + 1), 1000);
 
-      // TODO: Move window with smooth animation...
-      // https://javascript.info/js-animation
-      // https://stackoverflow.com/questions/5605588/how-to-use-requestanimationframe
-      // const animationCounter = setInterval(() => setAnimationTimer(animationTimer + 1), 100);
-      
       return () => {
         clearInterval(counter)
-        // clearInterval(animationCounter)
       };
     } else {
       audio.pause();
+      resetAudio();
     }
   }, [timer, isPlaying])
 
@@ -49,14 +45,19 @@ function App() {
   }
 
   return (
-    <div className="">
-      <button onClick={()=>setIsPlaying(prev=>!prev)} className="px-4 py-2 bg-green-300">{isPlaying ? 'Pause':'Play'}</button>
-      <button onClick={()=>resetAudio()} className="px-4 py-2 bg-red-300">Reset</button>
-
-      Time: {timer} 
+    <div className="w-full h-screen">
+      <div className="w-full h-full flex flex-col items-center justify-center">
+        <h1 className="text-xl font-bold">家常音樂（window popup特效實驗）</h1>
+        <p className="mb-3 text-gray-600">提醒：請檢查browser pop up的設置</p>
+        <button onClick={()=>setIsPlaying(prev=>!prev)} className={`w-24 px-4 py-2 rounded-lg ${isPlaying ? 'bg-red-300':'bg-green-300'}`}>{isPlaying ? 'Pause':'Play'}</button>
+        {/* <button onClick={()=>resetAudio()} className="w-24 px-4 py-2 bg-red-300 mb-1">Reset</button> */}
+      </div>
 
       {isPlaying && 
-        <WindowTimer />
+        <>
+          <WindowTimer/>
+          <WindowTest/>
+        </>
       }
 
     </div>
@@ -69,3 +70,6 @@ export default App;
 // https://www.youtube.com/watch?v=Xx7lJt_Pdek&t=33s
 // https://stackoverflow.com/questions/23858214/move-object-around-circle-javascript/23859635
 // https://stackoverflow.com/questions/9614109/how-to-calculate-an-angle-from-points
+// TODO: Move window with smooth animation...
+// https://javascript.info/js-animation
+// https://stackoverflow.com/questions/5605588/how-to-use-requestanimationframe
