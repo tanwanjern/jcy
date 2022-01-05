@@ -6,6 +6,7 @@ const NewWindow = ({
     title,
     features,
     moveTo,
+    moveBy,
     onUnload
 }) => {
 
@@ -23,31 +24,41 @@ const NewWindow = ({
     useEffect(() => {
         if (container) {
             newWindow.current = window.open("", title, features);
-            newWindow.current.document.body.appendChild(container);
-            newWindow.current.document.title = title;
-            const curWindow = newWindow.current;
 
-            const windowCheckerInterval = setInterval(() => {
-                if (!newWindow.current || newWindow.current.closed) {
-                    onUnload && onUnload(false)
-                }
-                console.log('window active')
-            }, 50);
+            if(newWindow.current){
+                newWindow.current.document.body.appendChild(container);
+                newWindow.current.document.title = title;
 
-            newWindow.current.addEventListener('beforeunload', () => {
-                onUnload && onUnload(false);
-                clearInterval(windowCheckerInterval)
-            })
-
-            return () => curWindow.close();
+                const curWindow = newWindow.current;
+    
+                const windowCheckerInterval = setInterval(() => {
+                    if (!newWindow.current || newWindow.current.closed) {
+                        onUnload && onUnload(false)
+                    }
+                    console.log('window active')
+                }, 50);
+    
+                newWindow.current.addEventListener('beforeunload', () => {
+                    onUnload && onUnload(false);
+                    clearInterval(windowCheckerInterval)
+                })
+    
+                return () => curWindow.close();
+            }
         }
     }, [container]);
 
     useEffect(()=>{
-        if(newWindow.current){
+        if(newWindow.current && moveBy){
+            newWindow.current.moveBy(moveBy[0], moveBy[1])
+            newWindow.current.focus();
+        }
+    }, [moveBy])
+
+    useEffect(()=>{
+        if(newWindow.current && moveTo){
             newWindow.current.moveTo(moveTo[0], moveTo[1])
         }
-        // console.log(moveTo[0], moveTo[1]);
     }, [moveTo])
 
    

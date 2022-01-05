@@ -1,24 +1,31 @@
-import { useState, useRef, useEffect } from 'react';
-import { createPortal } from "react-dom";
-import { useRecoilState } from 'recoil';
+import { useState, useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import NewWindow from './NewWindow';
 import windowTimerState from '../state/ui/windowTimerState';
+import timerState from '../state/timerState';
+import animationTimerState from '../state/animationTimerState';
 
-const WindowTimer = ({children, increment, setWindow}) => {
+const WindowTimer = ({children, increment}) => {
 
     const [openWindowTimer, setOpenWindowTimer] = useRecoilState(windowTimerState);
+    const timer = useRecoilValue(timerState);
+    const animationTimer = useRecoilValue(animationTimerState);
 
-    return (
+    useEffect(()=>{
+        setOpenWindowTimer(timer > 2 && timer < 10)
+    }, [timer])
+
+    return openWindowTimer && (
         <NewWindow 
             title={"test "}
             features={`
                 width=600,
-                height=400,
+                height=200,
                 left=0,
                 top=0`
             }
-            moveTo={[10, 10]}
-            onUnload={(bool)=>setOpenWindowTimer(bool)}
+            moveBy={[1*animationTimer, 1*animationTimer]}
+            // onUnload={(bool)=>{console.log(bool); setOpenWindowTimer(bool);}}
         >
             Hi 👋 {increment}
             {children}
