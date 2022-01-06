@@ -7,6 +7,8 @@ const NewWindow = ({
     features,
     moveTo,
     moveBy,
+    resizeTo,
+    resizeBy,
     onUnload
 }) => {
 
@@ -57,6 +59,18 @@ const NewWindow = ({
             newWindow.current.moveTo(moveTo[0], moveTo[1])
         }
     }, [moveTo])
+
+    useEffect(()=>{
+        if(newWindow.current && resizeBy){
+            newWindow.current.resizeBy(resizeBy[0], resizeBy[1])
+        }
+    }, [resizeBy])
+
+    useEffect(()=>{
+        if(newWindow.current && resizeTo){
+            newWindow.current.resizeTo(resizeTo[0], resizeTo[1])
+        }
+    }, [resizeTo])
    
     return container && createPortal(children, container);
 };

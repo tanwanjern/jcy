@@ -6,6 +6,8 @@ import useWindowDimensions from '../hooks/useWindowDimensions';
 
 const WindowTest = ({children}) => {
 
+    // Moving window sample
+
     const [openWindow, setOpenWindow] = useState(0);
     const timer = useRecoilValue(timerState);
 

@@ -11,6 +11,7 @@ import timerState from './states/timerState';
 
 import WindowTest from './components/WindowTest';
 import WindowTimer from './components/WindowTimer';
+import WindowTest2 from './components/WindowTest2';
 
 function App() {
 
@@ -56,7 +57,8 @@ function App() {
       {isPlaying && 
         <>
           <WindowTimer/>
-          <WindowTest/>
+          {/* <WindowTest/> */}
+          <WindowTest2/>
         </>
       }
 
